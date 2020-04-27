@@ -1,54 +1,64 @@
 
-$().ready(function () {
+$(document).ready(function () {
 
-    $("form[name='loginForm']").validate({
+    $('#loginForm').validate({
+
         rules: {
-            loginUserName: {
+            login_username: {
                 pattern: '^[a-zA-Z0-9]*$',
                 required: true,
-                minlength: 2
+                // minlength: 2
             },
-            loginPassword: {
-                pattern: '^(?=.*\\d)(?=.*[a-zA-Z]).{8,200}$',
+            login_password: {
+                // pattern: '^(?=.*\\d)(?=.*[a-zA-Z]).{8,200}$',
                 required: true,
-                minlength: 6,
+                // minlength: 6,
             },
         },
         messages: {
-            loginUserName: {
+            login_username: {
                 pattern: "Your user name must be contains only letters and numbers",
                 required: "Please enter a username",
-                minlength: "Your username must consist of at least 2 characters"
+                // minlength: "Your username must consist of at least 2 characters"
             },
-            loginPassword: {
-                pattern: "You have to insert both numbers and letters",
+            login_password: {
+                // pattern: "You have to insert both numbers and letters",
                 required: "Please provide a password",
-                minlength: "Your password must be at least 6 characters long"
+                // minlength: "Your password must be at least 6 characters long"
             },
         },
+    
+    });
 
-        
-        //just if submitted without errors keep to create an account
-        submitHandler: function(form) {
-            form.submit();
-            let userName = document.getElementById("loginUserName").value;
-            let userPassword = document.getElementById("loginPassword").value;
-            let user={userName,userPassword};
+});
+
+function login() {
+       
+        if ($('#loginForm').valid()) {
+            //take the input 
+            let userName = document.getElementById("login_username").value;
+            let userPassword = document.getElementById("login_password").value;
+            //reset them
+            document.getElementById("login_username").value = "";
+            document.getElementById("login_password").value = "";
+            //check if username exsist
+            if(containUserName(userName)){
+                //check if his password correct
+                if(getPasswordOfUserName(userName) == userPassword){
+                    //save the user to be the cuurent user
+                    
+                }
+                else{
+                    alert("wrong password")
+                }
+            }
+            else{
+                alert("user doesnt exist in the system")
+            }
             
-            changeWindowById("settingSection");
-
-            // if(containUser(user)){//succsess login
-            //     //move to game page
-            //     //moveTo("gameSection");
-            //     //functionHide('gameSection');
-            //     gamePage();
-
-           
-            // }
-            // else{
-            //     alert("wrong details, try again or first register")      
-            // }
+            
+            //just than change to setting
+            changeWindowById("settingSection")
         }
 
-    });
-});
+}
